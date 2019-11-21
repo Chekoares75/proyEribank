@@ -32,7 +32,7 @@ public class DefinitionPago {
 	}
 
 	@When("^llenar formulario y enviar datos \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\" \"([^\"]*)\"$")
-	public void llenarFormularioYEnviarDatos(String telefono, String nombre, String monto, String pais) {
+	public void llenarFormularioYEnviarDatos(String telefono, String nombre, String monto, String pais) throws InterruptedException {
 		objStepPago.llenarFormularioYEnviarDatos(telefono, nombre, monto, pais);
 	}
 

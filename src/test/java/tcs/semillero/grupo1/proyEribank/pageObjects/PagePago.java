@@ -10,11 +10,18 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.touch.TouchActions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.jhlabs.image.CellularFilter.Point;
+import com.jhlabs.image.LightFilter.PointLight;
+
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.FindsByAccessibilityId;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import net.serenitybdd.core.annotations.findby.By;
+import net.thucydides.core.webdriver.WebDriverFacade;
 
 public class PagePago extends MobilePageObject {
 	double saldo;
@@ -38,7 +45,9 @@ public class PagePago extends MobilePageObject {
 	String btnConfirmar = "android:id/button1";
 
 	String txtListaPais = "//android.widget.ListView/android.widget.TextView[@text=\"";
-
+	String xpathO="/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[1]";
+	String xpathD="/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[11]";
+	
 	public void iniciarApp() throws MalformedURLException {
 	}
 
@@ -111,7 +120,23 @@ public class PagePago extends MobilePageObject {
 	}
 
 	public void seleccionarPais() {
-		
-				
 	}
-}
+	
+		public void swipe()
+		{
+			
+			WebDriver facade = getDriver();
+			WebDriver driver =((WebDriverFacade) facade).getProxiedDriver();
+			TouchAction ta = new TouchAction((PerformsTouchActions) driver);
+			MobileElement CoorO = (MobileElement) driver.findElement(By.xpath(xpathO));
+			org.openqa.selenium.Point locationO = CoorO.getLocation();
+			MobileElement CoorD = (MobileElement) driver.findElement(By.xpath(xpathD));
+			org.openqa.selenium.Point locationD = CoorD.getLocation();
+			PointOption LocO = new PointOption();
+			LocO.withCoordinates(locationO.x, locationO.y);
+			PointOption LocD = new PointOption();
+			LocD.withCoordinates(locationD.x, locationD.y);
+			ta.press(LocD).waitAction().moveTo(LocO).release().perform();
+		}
+	}
+
