@@ -31,13 +31,15 @@ public class StepPago {
 	}
 
 	@Step
-	public void llenarFormularioYEnviarDatos(String telefono, String nombre, String monto, String pais) {
+	public void llenarFormularioYEnviarDatos(String telefono, String nombre, String monto, String pais) throws InterruptedException {
 		objPagePago.enviarTelefono(telefono);
 		objPagePago.enviarNombre(nombre);
 		objPagePago.enviarMonto(monto);
 		objPagePago.enviarPais(pais);
 		objPagePago.pulsarSeleccionPais();
 		objPagePago.seleccionarPais();
+		Thread.sleep(3000);
+		objPagePago.swipe();
 		//objPagePago.pulsarEnviar();
 		//objPagePago.pulsarConfirmar();
 	}
