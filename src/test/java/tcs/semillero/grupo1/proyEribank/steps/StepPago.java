@@ -35,13 +35,13 @@ public class StepPago {
 		objPagePago.enviarTelefono(telefono);
 		objPagePago.enviarNombre(nombre);
 		objPagePago.enviarMonto(monto);
-		objPagePago.enviarPais(pais);
+//		objPagePago.enviarPais(pais);
 		objPagePago.pulsarSeleccionPais();
 		objPagePago.seleccionarPais();
 		Thread.sleep(3000);
-		objPagePago.swipe();
-		//objPagePago.pulsarEnviar();
-		//objPagePago.pulsarConfirmar();
+		objPagePago.swipe(pais);
+		objPagePago.pulsarEnviar();
+		objPagePago.pulsarConfirmar();
 	}
 
 	@Step

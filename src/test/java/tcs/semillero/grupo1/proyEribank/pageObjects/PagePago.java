@@ -27,6 +27,9 @@ public class PagePago extends MobilePageObject {
 	double saldo;
 	double saldoNuevo;
 	double monto;
+	
+	
+	String idActualizacion="android:id/button1";
 	String edtUsuario = "com.experitest.ExperiBank:id/usernameTextField";
 	String edtContrasena = "com.experitest.ExperiBank:id/passwordTextField";
 	String btnIngresar = "com.experitest.ExperiBank:id/loginButton";
@@ -48,6 +51,7 @@ public class PagePago extends MobilePageObject {
 	String xpathO="/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[1]";
 	String xpathD="/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[11]";
 	
+	
 	public void iniciarApp() throws MalformedURLException {
 	}
 
@@ -56,6 +60,10 @@ public class PagePago extends MobilePageObject {
 	}
 
 	public void ingresarUsuario(String usuario) {
+		boolean Actualizacion=element(By.id(idActualizacion)).isVisible();
+		if (Actualizacion==true) {
+			element(By.id(idActualizacion)).click();
+		}
 		element(By.id(this.edtUsuario)).sendKeys(usuario);
 	}
 
@@ -103,8 +111,8 @@ public class PagePago extends MobilePageObject {
 		this.monto = Double.parseDouble(monto);
 	}
 
-	public void enviarPais(String pais) {
-		txtListaPais += pais + "\"]";
+	public String enviarPais(String pais) {
+		return txtListaPais += pais + "\"]";
 	}
 
 	public void pulsarEnviar() {
@@ -122,9 +130,16 @@ public class PagePago extends MobilePageObject {
 	public void seleccionarPais() {
 	}
 	
-		public void swipe()
+		public void swipe(String pais)
+		
 		{
-			
+			System.out.println(enviarPais(pais));
+			int i=0;
+			boolean condicion=element(By.xpath(enviarPais(pais))).isVisible();
+			System.out.println(condicion);
+		while (condicion==false){
+			i++;
+			System.out.println(i);
 			WebDriver facade = getDriver();
 			WebDriver driver =((WebDriverFacade) facade).getProxiedDriver();
 			TouchAction ta = new TouchAction((PerformsTouchActions) driver);
@@ -137,6 +152,9 @@ public class PagePago extends MobilePageObject {
 			PointOption LocD = new PointOption();
 			LocD.withCoordinates(locationD.x, locationD.y);
 			ta.press(LocD).waitAction().moveTo(LocO).release().perform();
+		}
+		System.out.println("1." +condicion);
+		element(By.xpath(enviarPais(pais))).click();
 		}
 	}
 
