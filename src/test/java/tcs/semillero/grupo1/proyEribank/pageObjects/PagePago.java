@@ -27,9 +27,8 @@ public class PagePago extends MobilePageObject {
 	double saldo;
 	double saldoNuevo;
 	double monto;
-	
-	
-	String idActualizacion="android:id/button1";
+
+	String idActualizacion = "android:id/button1";
 	String edtUsuario = "com.experitest.ExperiBank:id/usernameTextField";
 	String edtContrasena = "com.experitest.ExperiBank:id/passwordTextField";
 	String btnIngresar = "com.experitest.ExperiBank:id/loginButton";
@@ -48,10 +47,10 @@ public class PagePago extends MobilePageObject {
 	String btnConfirmar = "android:id/button1";
 
 	String txtListaPais = "//android.widget.ListView/android.widget.TextView[@text=\"";
-	String xpathO="/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[1]";
-	String xpathD="/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[11]";
-	
-	
+	String xpathO = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[2]";
+	String xpathD = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[11]";
+	String country = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.ListView/android.widget.TextView[";
+
 	public void iniciarApp() throws MalformedURLException {
 	}
 
@@ -60,8 +59,8 @@ public class PagePago extends MobilePageObject {
 	}
 
 	public void ingresarUsuario(String usuario) {
-		boolean Actualizacion=element(By.id(idActualizacion)).isVisible();
-		if (Actualizacion==true) {
+		boolean Actualizacion = element(By.id(idActualizacion)).isVisible();
+		if (Actualizacion == true) {
 			element(By.id(idActualizacion)).click();
 		}
 		element(By.id(this.edtUsuario)).sendKeys(usuario);
@@ -81,6 +80,7 @@ public class PagePago extends MobilePageObject {
 		String mensajeAValidar = element(By.xpath(this.txtSaldo)).getText().toString();
 		String palabras[] = mensajeAValidar.split(":");
 		palabras[1] = palabras[1].substring(0, palabras[1].length() - 1);
+		palabras[1] = palabras[1].replace(",", ".");
 		saldo = Double.parseDouble(palabras[1]);
 	}
 
@@ -129,32 +129,41 @@ public class PagePago extends MobilePageObject {
 
 	public void seleccionarPais() {
 	}
-	
-		public void swipe(String pais)
-		
-		{
-			System.out.println(enviarPais(pais));
-			int i=0;
-			boolean condicion=element(By.xpath(enviarPais(pais))).isVisible();
-			System.out.println(condicion);
-		while (condicion==false){
-			i++;
-			System.out.println(i);
-			WebDriver facade = getDriver();
-			WebDriver driver =((WebDriverFacade) facade).getProxiedDriver();
-			TouchAction ta = new TouchAction((PerformsTouchActions) driver);
-			MobileElement CoorO = (MobileElement) driver.findElement(By.xpath(xpathO));
-			org.openqa.selenium.Point locationO = CoorO.getLocation();
-			MobileElement CoorD = (MobileElement) driver.findElement(By.xpath(xpathD));
-			org.openqa.selenium.Point locationD = CoorD.getLocation();
-			PointOption LocO = new PointOption();
-			LocO.withCoordinates(locationO.x, locationO.y);
-			PointOption LocD = new PointOption();
-			LocD.withCoordinates(locationD.x, locationD.y);
-			ta.press(LocD).waitAction().moveTo(LocO).release().perform();
-		}
-		System.out.println("1." +condicion);
-		element(By.xpath(enviarPais(pais))).click();
-		}
-	}
 
+	public void swipe(String pais){  
+		
+		String paisABuscar = country + "1]";
+		System.out.println(paisABuscar);
+		String paisAleatorio = element(By.xpath(paisABuscar)).getText();
+		int bucle = 0;
+		while (bucle==0) {
+			for (int i=1;i<=15;i++) {
+				System.out.println(i);
+//				paisABuscar="";
+				paisABuscar = country + i +"]";
+				paisAleatorio = element(By.xpath(paisABuscar)).getText();
+				System.out.println(paisAleatorio);
+				if (paisAleatorio.equalsIgnoreCase("Colombia")) {
+					System.out.println("encontre algo");
+					element(By.xpath(paisABuscar)).click();
+					bucle=1;
+					i=16;
+				}
+				}
+					WebDriver facade = getDriver();
+					WebDriver driver = ((WebDriverFacade) facade).getProxiedDriver();
+					TouchAction ta = new TouchAction((PerformsTouchActions) driver);
+					MobileElement CoorO = (MobileElement) driver.findElement(By.xpath(xpathO));
+					org.openqa.selenium.Point locationO = CoorO.getLocation();
+					MobileElement CoorD = (MobileElement) driver.findElement(By.xpath(xpathD));
+					org.openqa.selenium.Point locationD = CoorD.getLocation();
+					PointOption LocO = new PointOption();
+					LocO.withCoordinates(locationO.x, locationO.y);
+					PointOption LocD = new PointOption();
+					LocD.withCoordinates(locationD.x, locationD.y);
+					ta.press(LocD).waitAction().moveTo(LocO).release().perform();
+					bucle=0;
+				}
+			}
+
+}
