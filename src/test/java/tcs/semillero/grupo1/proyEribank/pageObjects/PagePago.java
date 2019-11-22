@@ -137,7 +137,9 @@ public class PagePago extends MobilePageObject {
 		String paisAleatorio = element(By.xpath(paisABuscar)).getText();
 		int bucle = 0;
 		while (bucle==0) {
+			int n=0;
 			for (int i=1;i<=15;i++) {
+				
 				System.out.println(i);
 //				paisABuscar="";
 				paisABuscar = country + i +"]";
@@ -147,9 +149,11 @@ public class PagePago extends MobilePageObject {
 					System.out.println("encontre algo");
 					element(By.xpath(paisABuscar)).click();
 					bucle=1;
-					i=16;
+					i=17;
+					n=17;
 				}
 				}
+			if (n!=17) {
 					WebDriver facade = getDriver();
 					WebDriver driver = ((WebDriverFacade) facade).getProxiedDriver();
 					TouchAction ta = new TouchAction((PerformsTouchActions) driver);
@@ -161,8 +165,8 @@ public class PagePago extends MobilePageObject {
 					LocO.withCoordinates(locationO.x, locationO.y);
 					PointOption LocD = new PointOption();
 					LocD.withCoordinates(locationD.x, locationD.y);
-					ta.press(LocD).waitAction().moveTo(LocO).release().perform();
-					bucle=0;
+					ta.press(LocD).waitAction().moveTo(LocO).release().perform();			
+			}
 				}
 			}
 
